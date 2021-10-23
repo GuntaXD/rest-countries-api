@@ -163,6 +163,7 @@ body{
 		background: var(--dark-blue);
 		height: 280px;
 		width: 80%;
+		max-width: 340px;
 		grid-column:  span 12;
 		color: var(--white);
 		border-radius: 6px;
@@ -193,11 +194,31 @@ body{
 
 /*medias: 320 480 600 768 1024 1200*/
 
+@media all and ( min-width: 480px ){
+}
+
+
+@media all and ( min-width: 600px ){
+
+	.card{
+		grid-column: span 6;
+	}
+}
+
+@media all and ( min-width: 1024px ){
+
+	.card{
+		grid-column: span 3;
+	}
+}
+
 @media all and ( min-width: 768px ){
 
 	.nav{
 		flex-direction: row;
 		justify-content: space-between;
+		align-items: center;
 		padding: 0 5%;
 	}
+
 }
