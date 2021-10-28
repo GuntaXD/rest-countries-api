@@ -6,10 +6,15 @@ fetch(API_URL)
 .then( response => response.json() )
 .then( paises =>{ ordenar(paises);
 	mostrar(paises);
+
+	checkbox(paises);
  })
 .catch( error => console.log(error) );
 
 function mostrar( arreglo ){
+
+	document.querySelector(".countries").innerHTML = "";
+
 	arreglo.forEach( pais =>{
 		let card = document.createElement("div");
 		card.classList.add("card");
@@ -68,7 +73,7 @@ function ordenar( array ){
 
 //funcion del checkbox
 
-function checkbox(){
+function checkbox( paises ){
 	
 	let selectBox = document.querySelector(".selectBox");
 	let list = selectBox.querySelector(".selectBox__list");
@@ -82,10 +87,20 @@ function checkbox(){
 	
 		if ( event.target.className == "selectBox__option" ){
 			selectBoxSelection.innerHTML = event.target.innerHTML;
+
+			if( event.target.innerHTML == "All" ){
+
+				mostrar(paises);
+				console.log("hola");
+
+			}else{
+
+				let filtro = paises.filter( pais => pais.region == event.target.innerHTML );
+				mostrar(filtro);
+
+			}
 		}
 
 	});
 
 }
-
-checkbox();
