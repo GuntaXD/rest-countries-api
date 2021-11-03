@@ -142,17 +142,6 @@ body{
 		background: rgba(0,0,0,.2);
 	}
 
-	@keyframes expand{
-		0%{
-			transform: scaleY(0);
-			transform-origin: top;
-		}
-		100%{
-			transform-origin: top;
-			transform: scaleY(1);
-		}
-	}
-
 	/*----div countries-----------*/
 
 	.countries{
@@ -169,6 +158,7 @@ body{
 		border-radius: 6px;
 		overflow: hidden;
 		box-shadow: 2px 2px 6px -2px #000;
+		cursor: pointer;
 	}
 
 	.card__name{
@@ -191,6 +181,77 @@ body{
 	    justify-items: center;
 	}
 
+	/*estilos al abrir un pais*/
+
+	.button__back{
+		background: var(--dark-blue);
+		height: 30%;
+		width: 20%;
+		color: var(--white);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 6px;
+		box-shadow: 2px 2px 6px -2px #000;
+		cursor: pointer;
+	}
+
+	.country{
+		width: 100%;
+		grid-column: 2/span 10;
+		color: var(--white);
+	}
+
+	.country p{
+		margin: .2em;
+	}
+
+	.country__flag{
+		width: 100%;
+		height: auto;
+	}
+
+	.country__name, .primary__info, .secondary__info, .country__border{
+		margin-top: 1em;
+	}
+
+	.bolder{
+		font-weight: bolder;
+	}
+
+	.border__title{
+		font-size: 1.2em;
+	}
+
+	.contain__border--countries{
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: 1em;
+	}
+
+	.border__country{
+		background: var(--dark-blue);
+		padding: 2%;
+		border-radius: 6px;
+		margin: .2em;
+		box-shadow: 2px 2px 6px -2px #000;
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	@keyframes expand{
+		0%{
+			transform: scaleY(0);
+			transform-origin: top;
+		}
+		100%{
+			transform-origin: top;
+			transform: scaleY(1);
+		}
+	}
+
 
 /*medias: 320 480 600 768 1024 1200*/
 
@@ -202,6 +263,44 @@ body{
 
 	.card{
 		grid-column: span 6;
+	}
+
+	.country{
+		display: flex;
+		justify-content: space-between;
+		height: calc(80vh - 100px);
+	}
+
+	.country__flag{
+		width: 40%;
+		object-fit: scale-down;
+	}
+
+	.country__info{
+		width: 40%;
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.country__name{
+		width: 100%;
+	}
+
+	.primary__info,.seconday__info{
+		width: 50%;
+	}
+
+	.country__border{
+		display: flex;
+	}
+
+	.contain__border--countries{
+		margin-top: 0;
+		margin-bottom: 1em;
+	}
+
+	.border__country{
+		padding: 0%;
 	}
 }
 

@@ -6,8 +6,9 @@ fetch(API_URL)
 .then( response => response.json() )
 .then( paises =>{ ordenar(paises);
 	mostrar(paises);
-
 	checkbox(paises);
+	buscar(paises);
+	infoCountry(paises);
  })
 .catch( error => console.log(error) );
 
@@ -102,5 +103,168 @@ function checkbox( paises ){
 		}
 
 	});
+
+}
+
+function buscar( paises ){
+
+	let input = document.querySelector(".input");
+
+	input.addEventListener("input", ()=>{
+
+		let filtro = paises.filter( pais => pais.name.common.toLowerCase().startsWith(input.value.toLowerCase()));
+		mostrar(filtro);
+		
+	});
+}
+
+function infoCountry( paises ){
+
+	
+	let card = document.querySelectorAll(".card");
+	let countries = document.querySelector(".countries");
+	let nav = document.querySelector(".nav");
+
+	countries.addEventListener("click" , (event)=>{
+		if( event.target.parentNode.className == "card" || 
+			event.target.parentNode.className == "card__stats" ||
+			event.target.className == "card" ){
+
+			//obtener el pais al que se clickeo;
+
+			let country;
+
+			if( event.target.parentNode.className == "card" ){
+				country = event.target.parentNode;
+				country = country.querySelector(".card__name").innerHTML;
+				country = paises.find( pais => pais.name.common == country );
+			}else if ( event.target.className == "card" ){
+				country = event.target;
+				country = country.querySelector(".card__name").innerHTML;
+				country = paises.find( pais => pais.name.common == country );
+			}else{
+				country = event.target.parentNode.parentNode;
+				country = country.querySelector(".card__name").innerHTML;
+				country = paises.find( pais => pais.name.common == country );
+			}
+			console.log(country);
+
+			nav.innerHTML = "";
+
+			let back = document.createElement("div");
+			back.appendChild(document.createTextNode("Back"));
+			back.className = "button__back";
+			nav.appendChild(back);
+
+
+			countries.innerHTML = "";
+
+			let countryPage = document.createElement("div");
+			countryPage.className = "country";
+
+			let countryFlag = document.createElement("img");
+			countryFlag.className = "country__flag";
+			countryFlag.setAttribute("src", country.flags[0] );
+
+			let countryInfo = document.createElement("div");
+			countryInfo.className = "country__info";
+
+			let countryName = document.createElement("h2");
+			countryName.className = "country__name";
+			countryName.appendChild(document.createTextNode(country.name.common));
+
+			let primaryInfo = document.createElement("div");
+			primaryInfo.className = "primary__info";
+
+			let nativeName = document.createElement("p");
+			nativeName.className = "native__name";
+
+			let bolder = document.createElement("span");
+			bolder.className = "bolder";
+			bolder.appendChild(document.createTextNode("Native name:  "));
+
+			nativeName.appendChild(bolder);
+			nativeName.appendChild(document.createTextNode(country.name.nativeName[ Object.keys(country.name.nativeName)[Object.keys(country.name.nativeName).length -1 ] ].common ));
+
+			primaryInfo.appendChild(nativeName);
+
+			let population = document.createElement("p");
+			population.className = "population";
+
+			bolder = document.createElement("span");
+			bolder.className = "bolder";
+			bolder.appendChild(document.createTextNode("Population:  "));
+
+			population.appendChild(bolder);
+			population.appendChild(document.createTextNode(country.population));
+
+			primaryInfo.appendChild(population);
+
+			let region = document.createElement("p");
+			region.className = "region";
+
+			bolder = document.createElement("span");
+			bolder.className = "bolder";
+			bolder.appendChild(document.createTextNode("Region:  "));
+
+			region.appendChild(bolder);
+			region.appendChild(document.createTextNode(country.region));
+
+			primaryInfo.appendChild(region);
+
+			let subRegion = document.createElement("p");
+			subRegion.className = "sub__region";
+
+			bolder = document.createElement("span");
+			bolder.className = "bolder";
+			bolder.appendChild(document.createTextNode("Sub-region:  "));
+
+			subRegion.appendChild(bolder);
+			subRegion.appendChild(document.createTextNode(country.subregion));
+
+			primaryInfo.appendChild(subRegion);
+
+			let capital = document.createElement("p");
+			capital.className = "capital";
+
+			bolder = document.createElement("span");
+			bolder.className = "bolder";
+			bolder.appendChild(document.createTextNode("Capital:  "));
+
+			capital.appendChild(bolder);
+			capital.appendChild(document.createTextNode(country.capital));
+
+			primaryInfo.appendChild(capital);
+
+			let secondaryInfo = document.createElement("div");
+			secondaryInfo.className = "secondary__info";
+
+			let topDomain = document.createElement("p");
+			topDomain.className = "top__domain";
+
+			bolder = document.createElement("span");
+			bolder.className = "bolder";
+			bolder.appendChild(document.createTextNode("Top level domain:  "));
+
+			topDomain.appendChild(bolder);
+			topDomain.appendChild(document.createTextNode(country.tld[0]));
+
+			secondaryInfo.appendChild(topDomain);
+
+			countryInfo.appendChild(countryName);
+			countryInfo.appendChild(primaryInfo);
+			countryInfo.appendChild(secondaryInfo);
+
+
+			//agregando elementos al padre
+
+			countryPage.appendChild(countryFlag);
+			countryPage.appendChild(countryInfo);
+
+			//agregando elementos a la pagina
+
+			countries.appendChild(countryPage);
+		}
+	})
 
 }
