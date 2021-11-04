@@ -229,6 +229,10 @@ body{
 		margin-top: 1em;
 	}
 
+	.country__border{
+		margin-top: 1em;
+	}
+
 	.border__country{
 		background: var(--dark-blue);
 		padding: 2%;

@@ -156,6 +156,64 @@ function infoCountry( paises ){
 			back.className = "button__back";
 			nav.appendChild(back);
 
+			back.addEventListener("click", ()=>{
+
+				nav.innerHTML = "";
+
+				let form = document.createElement("form");
+				form.className = "form";
+
+				let inputImg = document.createElement("img");
+				inputImg.className = "input__img";
+				inputImg.setAttribute("src","assets/search-icon.svg");
+
+				let input = document.createElement("input");
+				input.className = "input";
+				input.setAttribute("placeholder", "Search for a country...");
+
+				form.appendChild(inputImg);
+				form.appendChild(input);
+
+				let selectBox = document.createElement("div");
+				selectBox.className = "selectBox";
+
+				let selectBoxSelection = document.createElement("div");
+				selectBoxSelection.className = "selectBox__selection";
+				selectBoxSelection.appendChild(document.createTextNode("Filter by region"));
+
+				let selectBoxArrow = document.createElement("img");
+				selectBoxArrow.className = "selectBox__arrow";
+				selectBoxArrow.setAttribute("src", "assets/down-arrow.svg");
+
+				let selectBoxList = document.createElement("div");
+				selectBoxList.className = "selectBox__list";
+
+				let options = [ "All" , "Africa" , "Americas", "Asia", "Europe" , "Oceania"];
+
+				for(let i = 0; i < options.length ; i++ ){
+
+					let selectBoxOption = document.createElement("div");
+					selectBoxOption.className = "selectBox__option";
+					selectBoxOption.appendChild(document.createTextNode(options[i]));
+
+					selectBoxList.appendChild(selectBoxOption);
+
+				}
+
+				selectBox.appendChild(selectBoxSelection);
+				selectBox.appendChild(selectBoxArrow);
+				selectBox.appendChild(selectBoxList);
+
+				nav.appendChild(form);
+				nav.appendChild(selectBox);
+
+				countries.innerHTML = "";
+
+				buscar(paises);
+				checkbox(paises);
+				mostrar(paises);
+			});
+
 
 			countries.innerHTML = "";
 
@@ -251,9 +309,73 @@ function infoCountry( paises ){
 
 			secondaryInfo.appendChild(topDomain);
 
+			let currencies = document.createElement("p");
+			currencies.className = "currencies";
+
+			bolder = document.createElement("span");
+			bolder.className = "bolder";
+			bolder.appendChild(document.createTextNode("Currencies:  "));
+
+			currencies.appendChild(bolder);
+
+			for( let i = 0; i < Object.keys(country.currencies).length ; i++ ){
+				currencies.appendChild(document.createTextNode(country.currencies[Object.keys(country.currencies)[i]].name ));
+				if( i != Object.keys(country.currencies).length - 1 ){
+					currencies.appendChild(document.createTextNode(", "));
+				}else{
+					currencies.appendChild(document.createTextNode("."));
+				}
+			}
+
+			secondaryInfo.appendChild(currencies);
+
+			let languages = document.createElement("p");
+			languages.className = "languages";
+
+			bolder = document.createElement("span");
+			bolder.className = "bolder";
+			bolder.appendChild(document.createTextNode("Languages:  "));
+
+			languages.appendChild(bolder);
+
+			for( let lang in country.languages ){
+				languages.appendChild(document.createTextNode(country.languages[lang]));
+				if( country.languages[lang] != country.languages[ Object.keys(country.languages)[ Object.keys(country.languages).length - 1 ]]){
+					languages.appendChild(document.createTextNode(", "));
+				}else{
+					languages.appendChild(document.createTextNode(". "));
+				}
+			}
+
+			secondaryInfo.appendChild(languages);
+
+			let countryBorder = document.createElement("div");
+			countryBorder.className = "country__border";
+
+			let borderTitle = document.createElement("h4");
+			borderTitle.className = "border__title";
+			borderTitle.appendChild(document.createTextNode("Borders countries:"));
+
+			countryBorder.appendChild(borderTitle);
+
+			let containBorderCountries = document.createElement("div");
+			containBorderCountries.className = "contain__border--countries";
+
+			for( let i = 0 ; i < country.borders.length ; i++ ){
+
+				let border = document.createElement("div");
+				border.className = "border__country";
+
+				border.appendChild(document.createTextNode( paises.find( pais => pais.cca3 == country.borders[i]).name.common ));
+				containBorderCountries.appendChild(border);
+			}
+
+			countryBorder.appendChild(containBorderCountries);
+
 			countryInfo.appendChild(countryName);
 			countryInfo.appendChild(primaryInfo);
 			countryInfo.appendChild(secondaryInfo);
+			countryInfo.appendChild(countryBorder);
 
 
 			//agregando elementos al padre
