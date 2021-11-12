@@ -2,6 +2,8 @@
 
 const API_URL = "https://restcountries.com/v3/all";
 
+cambioColor();
+
 fetch(API_URL)
 .then( response => response.json() )
 .then( paises =>{ ordenar(paises);
@@ -349,34 +351,36 @@ function infoCountry( paises ){
 
 			secondaryInfo.appendChild(languages);
 
-			let countryBorder = document.createElement("div");
-			countryBorder.className = "country__border";
-
-			let borderTitle = document.createElement("h4");
-			borderTitle.className = "border__title";
-			borderTitle.appendChild(document.createTextNode("Borders countries:"));
-
-			countryBorder.appendChild(borderTitle);
-
-			let containBorderCountries = document.createElement("div");
-			containBorderCountries.className = "contain__border--countries";
-
-			for( let i = 0 ; i < country.borders.length ; i++ ){
-
-				let border = document.createElement("div");
-				border.className = "border__country";
-
-				border.appendChild(document.createTextNode( paises.find( pais => pais.cca3 == country.borders[i]).name.common ));
-				containBorderCountries.appendChild(border);
-			}
-
-			countryBorder.appendChild(containBorderCountries);
-
 			countryInfo.appendChild(countryName);
 			countryInfo.appendChild(primaryInfo);
 			countryInfo.appendChild(secondaryInfo);
-			countryInfo.appendChild(countryBorder);
+			
+			if( country.hasOwnProperty("borders") ){
+				let countryBorder = document.createElement("div");
+				countryBorder.className = "country__border";
 
+				let borderTitle = document.createElement("h4");
+				borderTitle.className = "border__title";
+				borderTitle.appendChild(document.createTextNode("Borders countries:"));
+
+				countryBorder.appendChild(borderTitle);
+
+				let containBorderCountries = document.createElement("div");
+				containBorderCountries.className = "contain__border--countries";
+
+				for( let i = 0 ; i < country.borders.length ; i++ ){
+
+					let border = document.createElement("div");
+					border.className = "border__country";
+
+					border.appendChild(document.createTextNode( paises.find( pais => pais.cca3 == country.borders[i]).name.common ));
+					containBorderCountries.appendChild(border);
+				}
+
+				countryBorder.appendChild(containBorderCountries);
+
+				countryInfo.appendChild(countryBorder);
+			}
 
 			//agregando elementos al padre
 
@@ -390,3 +394,60 @@ function infoCountry( paises ){
 	})
 
 }
+
+function cambioColor(){
+
+	let boton = document.querySelector(".header__button");
+
+	boton.addEventListener("click", ()=>{
+
+		//color fondo
+
+		
+
+		let background = getComputedStyle(document.documentElement).getPropertyValue("--very-light-gray");
+		let elements = getComputedStyle(document.documentElement).getPropertyValue("--white-dos");
+		let text = getComputedStyle(document.documentElement).getPropertyValue("--very-dark-blue-lmd");
+
+		document.documentElement.style.setProperty("--very-light-gray",
+			getComputedStyle(document.documentElement).getPropertyValue("--very-dark-blue"));
+
+		document.documentElement.style.setProperty("--very-dark-blue",background);
+
+		document.documentElement.style.setProperty("--white-dos",
+			getComputedStyle(document.documentElement).getPropertyValue("--dark-blue"));
+
+		document.documentElement.style.setProperty("--dark-blue",elements);
+
+		document.documentElement.style.setProperty("--very-dark-blue-lmd",
+			getComputedStyle(document.documentElement).getPropertyValue("--white"));
+
+		document.documentElement.style.setProperty("--white",text);
+
+
+		let iconos = [document.querySelector(".header__button--img"),
+		document.querySelector(".input__img"), document.querySelector(".selectBox__arrow")];
+
+		toggleBlack(...iconos);
+
+	});
+}
+
+function toggleBlack( ...elem ){
+
+	for( let i = 0 ; i < elem.length ; i++ ){
+
+		let elemSrc = elem[i].getAttribute("src");
+
+		if ( !elemSrc.endsWith("-black.svg") ){
+			elemSrc = elemSrc.replace( elemSrc.slice(elemSrc.length - 4 , elemSrc.length ) , "");
+			elem[i].setAttribute("src",elemSrc + "-black.svg");
+		}else{
+			elemSrc = elemSrc.replace( elemSrc.slice(elemSrc.length - 10 , elemSrc.length ) , "");
+			elem[i].setAttribute("src",elemSrc + ".svg");
+		}
+
+
+	}
+}
+
